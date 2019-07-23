@@ -1,0 +1,958 @@
+﻿<Window xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" x:Class="WpfApp1.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="887.9" Width="1526"
+        ResizeMode="NoResize">
+
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--ComboBox Styles-->
+        <SolidColorBrush x:Key="ComboBox.Static.Background" Color="#101017"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Border" Color="#101017"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Border" Color="#FFABADB3"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Background" Color="Transparent"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Border" Color="Transparent"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Glyph" Color="#FF000000"/>
+
+
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Background" Color="#101017"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Border" Color="#101017"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Background" Color="#101017"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Border" Color="#101017"/>
+
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Button.Background" Color="#101017"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Button.Border" Color="#101017"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Glyph" Color="#FF000000"/>
+        <LinearGradientBrush x:Key="ComboBox.Pressed.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFDAECFC" Offset="0.0"/>
+            <GradientStop Color="#FFC4E0FC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Border" Color="#FF569DE5"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Border" Color="#FF569DE5"/>
+        <LinearGradientBrush x:Key="ComboBox.Pressed.Editable.Button.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFDAEBFC" Offset="0.0"/>
+            <GradientStop Color="#FFC4E0FC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Button.Border" Color="#FF569DE5"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Glyph" Color="#FFBFBFBF"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Background" Color="#FFF0F0F0"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Border" Color="#FFD9D9D9"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Border" Color="#FFBFBFBF"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Background" Color="Transparent"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Border" Color="Transparent"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Glyph" Color="#FF606060"/>
+
+        <Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="ClickMode" Value="Press"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="templateRoot" BorderBrush="{StaticResource ComboBox.Static.Border}" BorderThickness="{TemplateBinding BorderThickness}" Background="{StaticResource ComboBox.Static.Background}" SnapsToDevicePixels="true">
+                            <Border x:Name="splitBorder" BorderBrush="Transparent" BorderThickness="1" HorizontalAlignment="Right" Margin="0" SnapsToDevicePixels="true" Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
+                                <Path x:Name="arrow" Data="F1 M 0,0 L 2.667,2.66665 L 5.3334,0 L 5.3334,-1.78168 L 2.6667,0.88501 L0,-1.78168 L0,0 Z" Fill="{StaticResource ComboBox.Static.Glyph}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center"/>
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Static.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Static.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.Static.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.Static.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" TargetName="arrow" Value="{StaticResource ComboBox.MouseOver.Glyph}"/>
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Border}"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.MouseOver.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.MouseOver.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Fill" TargetName="arrow" Value="{StaticResource ComboBox.Pressed.Glyph}"/>
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Border}"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.Pressed.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.Pressed.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Fill" TargetName="arrow" Value="{StaticResource ComboBox.Disabled.Glyph}"/>
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Border}"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.Disabled.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.Disabled.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="ComboBoxTemplate" TargetType="{x:Type ComboBox}">
+            <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Width="0"/>
+                </Grid.ColumnDefinitions>
+                <Popup x:Name="PART_Popup" AllowsTransparency="true" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="1" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
+                    <Themes:SystemDropShadowChrome x:Name="shadow" Color="Transparent" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{Binding ActualWidth, ElementName=templateRoot}">
+                        <Border x:Name="dropDownBorder" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+                            <ScrollViewer x:Name="DropDownScrollViewer">
+                                <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
+                                    <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+                                        <Rectangle x:Name="opaqueRect" Fill="{Binding Background, ElementName=dropDownBorder}" Height="{Binding ActualHeight, ElementName=dropDownBorder}" Width="{Binding ActualWidth, ElementName=dropDownBorder}"/>
+                                    </Canvas>
+                                    <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </Border>
+                    </Themes:SystemDropShadowChrome>
+                </Popup>
+                <ToggleButton x:Name="toggleButton" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ComboBoxToggleButton}"/>
+                <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Content="{TemplateBinding SelectionBoxItem}" ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" IsHitTestVisible="false" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="HasDropShadow" SourceName="PART_Popup" Value="true">
+                    <Setter Property="Margin" TargetName="shadow" Value="0,0,5,5"/>
+                    <Setter Property="Color" TargetName="shadow" Value="#71000000"/>
+                </Trigger>
+                <Trigger Property="HasItems" Value="false">
+                    <Setter Property="Height" TargetName="dropDownBorder" Value="95"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsGrouping" Value="true"/>
+                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                </MultiTrigger>
+                <Trigger Property="ScrollViewer.CanContentScroll" SourceName="DropDownScrollViewer" Value="false">
+                    <Setter Property="Canvas.Top" TargetName="opaqueRect" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}"/>
+                    <Setter Property="Canvas.Left" TargetName="opaqueRect" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <SolidColorBrush x:Key="TextBox.Static.Background" Color="#FFFFFFFF"/>
+        <Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="AllowDrop" Value="true"/>
+            <Setter Property="MinWidth" Value="0"/>
+            <Setter Property="MinHeight" Value="0"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <ScrollViewer x:Name="PART_ContentHost" Background="Transparent" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="ComboBoxEditableTemplate" TargetType="{x:Type ComboBox}">
+            <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Width="0"/>
+                </Grid.ColumnDefinitions>
+                <Popup x:Name="PART_Popup" AllowsTransparency="true" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
+                    <Themes:SystemDropShadowChrome x:Name="shadow" Color="Transparent" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{Binding ActualWidth, ElementName=templateRoot}">
+                        <Border x:Name="dropDownBorder" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+                            <ScrollViewer x:Name="DropDownScrollViewer">
+                                <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
+                                    <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+                                        <Rectangle x:Name="opaqueRect" Fill="{Binding Background, ElementName=dropDownBorder}" Height="{Binding ActualHeight, ElementName=dropDownBorder}" Width="{Binding ActualWidth, ElementName=dropDownBorder}"/>
+                                    </Canvas>
+                                    <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </Border>
+                    </Themes:SystemDropShadowChrome>
+                </Popup>
+                <ToggleButton x:Name="toggleButton" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ComboBoxToggleButton}"/>
+                <Border x:Name="border" Background="{StaticResource TextBox.Static.Background}" Margin="{TemplateBinding BorderThickness}">
+                    <TextBox x:Name="PART_EditableTextBox" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Margin="{TemplateBinding Padding}" Style="{StaticResource ComboBoxEditableTextBox}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Border>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocusWithin" Value="true">
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+                <Trigger Property="HasDropShadow" SourceName="PART_Popup" Value="true">
+                    <Setter Property="Margin" TargetName="shadow" Value="0,0,5,5"/>
+                    <Setter Property="Color" TargetName="shadow" Value="#71000000"/>
+                </Trigger>
+                <Trigger Property="HasItems" Value="false">
+                    <Setter Property="Height" TargetName="dropDownBorder" Value="95"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsGrouping" Value="true"/>
+                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                </MultiTrigger>
+                <Trigger Property="ScrollViewer.CanContentScroll" SourceName="DropDownScrollViewer" Value="false">
+                    <Setter Property="Canvas.Top" TargetName="opaqueRect" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}"/>
+                    <Setter Property="Canvas.Left" TargetName="opaqueRect" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <Style x:Key="ComboBoxStyle1" TargetType="{x:Type ComboBox}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource ComboBox.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ComboBox.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Padding" Value="6,3,5,3"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template" Value="{StaticResource ComboBoxTemplate}"/>
+            <Style.Triggers>
+                <Trigger Property="IsEditable" Value="true">
+                    <Setter Property="IsTabStop" Value="false"/>
+                    <Setter Property="Padding" Value="2"/>
+                    <Setter Property="Template" Value="{StaticResource ComboBoxEditableTemplate}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <LinearGradientBrush x:Key="ComboBox.Static.Background2" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFF0F0F0" Offset="0.0"/>
+            <GradientStop Color="#FFE5E5E5" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.Static.Border2" Color="#FFACACAC"/>
+        <LinearGradientBrush x:Key="ComboBox.MouseOver.Background2" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFECF4FC" Offset="0.0"/>
+            <GradientStop Color="#FFDCECFC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Border2" Color="#FF7EB4EA"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Background2" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Border2" Color="#FF7EB4EA"/>
+        <LinearGradientBrush x:Key="ComboBox.MouseOver.Editable.Button.Background2" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFEBF4FC" Offset="0.0"/>
+            <GradientStop Color="#FFDCECFC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Button.Border2" Color="#FF7EB4EA"/>
+        <Style x:Key="ComboBoxStyle2" TargetType="{x:Type ComboBox}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource ComboBox.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ComboBox.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Padding" Value="6,3,5,3"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template" Value="{StaticResource ComboBoxTemplate}"/>
+            <Style.Triggers>
+                <Trigger Property="IsEditable" Value="true">
+                    <Setter Property="IsTabStop" Value="false"/>
+                    <Setter Property="Padding" Value="2"/>
+                    <Setter Property="Template" Value="{StaticResource ComboBoxEditableTemplate}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+
+        <!--Button Styles-->
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" 
+                            CornerRadius="5" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#606163"/>
+                                <Setter Property="TextBlock.TextDecorations" TargetName="border" Value="Underline" />
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="OptionMark.Static.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="OptionMark.Static.Border" Color="#FF707070"/>
+        <Style x:Key="OptionMarkFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="14,0,0,0" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="OptionMark.MouseOver.Background" Color="#FFF3F9FF"/>
+        <SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="#FF5593FF"/>
+        <SolidColorBrush x:Key="OptionMark.MouseOver.Glyph" Color="#FF212121"/>
+        <SolidColorBrush x:Key="OptionMark.Disabled.Background" Color="#FFE6E6E6"/>
+        <SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="#FFBCBCBC"/>
+        <SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="#FF707070"/>
+        <SolidColorBrush x:Key="OptionMark.Pressed.Background" Color="#FFD9ECFF"/>
+        <SolidColorBrush x:Key="OptionMark.Pressed.Border" Color="#FF3C77DD"/>
+        <SolidColorBrush x:Key="OptionMark.Pressed.Glyph" Color="#FF212121"/>
+        <SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="#FF212121"/>
+        <Style x:Key=" Style1" TargetType="{x:Type CheckBox}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="checkBoxBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <Grid x:Name="markGrid">
+                                    <Path x:Name="optionMark" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Fill="{StaticResource OptionMark.Static.Glyph}" Margin="1" Opacity="0" Stretch="None"/>
+                                    <Rectangle x:Name="indeterminateMark" Fill="{StaticResource OptionMark.Static.Glyph}" Margin="2" Opacity="0"/>
+                                </Grid>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasContent" Value="true">
+                                <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
+                                <Setter Property="Padding" Value="4,-1,0,0"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.MouseOver.Border}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
+                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Border}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
+                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Pressed.Border}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
+                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Opacity" TargetName="optionMark" Value="1"/>
+                                <Setter Property="Opacity" TargetName="indeterminateMark" Value="0"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="{x:Null}">
+                                <Setter Property="Opacity" TargetName="optionMark" Value="0"/>
+                                <Setter Property="Opacity" TargetName="indeterminateMark" Value="1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--ListView template-->
+        <SolidColorBrush x:Key="ListBox.Static.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ListBox.Static.Border" Color="#000000"/>
+        <SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FFD9D9D9"/>
+        <Style x:Key="ListViewStyle1" TargetType="{x:Type ListView}">
+            <Setter Property="Background" Value="{StaticResource ListBox.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListView}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="1" SnapsToDevicePixels="true">
+                            <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </ScrollViewer>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource ListBox.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ListBox.Disabled.Border}"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsGrouping" Value="true"/>
+                                    <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+
+    <Grid Background="#0c0c11" Margin="0,0,-12,-8" HorizontalAlignment="Left" Width="1521">
+
+        <!--Background Rectangles-->
+        <Rectangle Fill="#101017" HorizontalAlignment="Left" Height="697" Margin="0,114,0,0" Stroke="Black" VerticalAlignment="Top" Width="1511" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2"/>
+
+        <!--Bottom MysteryAIO label-->
+        <Label FontSize="20" Foreground="White" Content="MysteryAIO" HorizontalAlignment="Center" Margin="23,811,1380,0" VerticalAlignment="Top" Width="117" Height="46" FontFamily="Segoe UI Semibold" Grid.ColumnSpan="3" Grid.Row="2"/>
+
+        <Image Grid.ColumnSpan="3" Margin="0,0,1403,748" Grid.RowSpan="3" Source="mystery2 (1).png" Stretch="Fill"/>
+
+        <!--Header-->
+        <Image MouseLeftButtonUp="TasksIcon_MouseLeftButtonUp" Margin="174,23,1246,765" Source="sweetdayum.jpg" Stretch="Fill"/>
+        <Image MouseLeftButtonUp="AddTasksIcon_MouseLeftButtonUp" Margin="464,23,965,768" Source="sweetdayum1.jpg" Stretch="Fill"/>
+        <Image MouseLeftButtonUp="ProfileIcon_MouseLeftButtonUp" Margin="324,23,1105,768" Source="sweetdayum2.jpg" Stretch="Fill"/>
+
+        <!--Profile Page-->
+        <Grid x:Name="ProfileGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0*"/>
+                <ColumnDefinition Width="88*"/>
+                <ColumnDefinition Width="1432*"/>
+                <ColumnDefinition Width="0*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="564" Margin="60,186,0,0" Stroke="Black" VerticalAlignment="Top" Width="650" RadiusY="5" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+            <Rectangle RadiusX="10" Fill="#0c0c11" Height="304" Margin="722,186,60,0" Stroke="Black" VerticalAlignment="Top" RadiusY="5" Width="650"  Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+
+
+            <!--Delivery boxes-->
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="17,268,0,0" VerticalAlignment="Top" Width="564" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="17,317,0,0" VerticalAlignment="Top" Width="564" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="17,368,0,0" VerticalAlignment="Top" Width="564" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="17,420,0,0" VerticalAlignment="Top" Width="564" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="17,472,0,0" VerticalAlignment="Top" Width="564" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="17,526,0,0" VerticalAlignment="Top" Width="564" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="17,576,0,0" VerticalAlignment="Top" Width="564" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="17,629,0,0" VerticalAlignment="Top" Width="270" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="17,688,0,0" VerticalAlignment="Top" Width="270" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="311,688,0,0" VerticalAlignment="Top" Width="270" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="311,629,0,0" VerticalAlignment="Top" Width="270" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+
+
+
+            <!--Shipping
+            Shipping box labels-->
+            <Label x:Name="ProfileLabelS" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Profile Name" HorizontalAlignment="Left" Margin="36,272,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="FirstNameLabelS" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="First Name" HorizontalAlignment="Left" Margin="36,321,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="LastNameLabelS" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Last Name" HorizontalAlignment="Left" Margin="33,373,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="EmailLabelS" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Email" HorizontalAlignment="Left" Margin="33,425,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="PhoneLabelS" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Phone" HorizontalAlignment="Left" Margin="33,476,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="Add1LabelS" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Address 1" HorizontalAlignment="Left" Margin="30,530,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="Add2LabelS" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Address 2" HorizontalAlignment="Left" Margin="30,580,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="CountryLabelS" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Country" HorizontalAlignment="Left" Margin="30,634,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="ZipLabelS" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Zip-Code" HorizontalAlignment="Left" Margin="30,694,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="StateLabelS" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="State" HorizontalAlignment="Left" Margin="322,634,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="CityLabelS" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="City" HorizontalAlignment="Left" Margin="322,694,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+
+
+            <!--Textboxes for Shipping-->
+            <TextBox x:Name="ProfileBoxS" PreviewMouseDown="ProfileBoxS_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="174,274,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="SneakerHead " VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="FirstNameBoxS" PreviewMouseDown="FirstNameBoxS_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="174,323,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="SneakerReaper" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="LastNameBoxS" PreviewMouseDown="LastNameBoxS_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="174,375,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="IO" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="EmailBoxS" PreviewMouseDown="EmailBoxS_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="174,427,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="SneakerReaperIO@gmail.com" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="PhoneBoxS" MaxLength="10" LostFocus="PhoneBoxS_LostFocus" PreviewMouseDown="PhoneBoxS_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="171,478,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="1234567890" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="Add1BoxS" PreviewMouseDown="Add1BoxS_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="171,532,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="1234 Sneaker Lane" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="Add2BoxS" PreviewMouseDown="Add2BoxS_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="171,582,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="Apt. 105" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="CountryBoxS" PreviewMouseDown="CountryBoxS_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="171,636,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="USA" VerticalAlignment="Top" Width="103" Grid.Column="2"/>
+            <TextBox MaxLength="5" x:Name="ZipBoxS"  PreviewMouseDown="ZipBoxS_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="174,696,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="12345" VerticalAlignment="Top" Width="103" Grid.Column="2"/>
+            <TextBox x:Name="CityBoxS" PreviewMouseDown="CityBoxS_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="413,696,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="Dubai" VerticalAlignment="Top" Width="151" Grid.Column="2"/>
+            <TextBox x:Name="StateBoxS" PreviewMouseDown="StateBoxS_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="413,636,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="California" VerticalAlignment="Top" Width="148" Grid.Column="2"/>
+
+
+
+            <!--Billing-->
+            <!--Delivery box labels-->
+            <Label x:Name="ProfileLabelB" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Profile Name" HorizontalAlignment="Left" Margin="36,272,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="FirstNameLabelB" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="First Name" HorizontalAlignment="Left" Margin="36,321,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="LastNameLabelB" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Last Name" HorizontalAlignment="Left" Margin="33,373,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="EmailLabelB" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Email" HorizontalAlignment="Left" Margin="33,425,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="PhoneLabelB" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Phone" HorizontalAlignment="Left" Margin="33,476,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="Add1LabelB" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Address 1" HorizontalAlignment="Left" Margin="30,530,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="Add2LabelB" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Address 2" HorizontalAlignment="Left" Margin="30,580,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="CountryLabelB" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Country" HorizontalAlignment="Left" Margin="30,634,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="ZipLabelB" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Zip-Code" HorizontalAlignment="Left" Margin="30,694,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="StateLabelB" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="State" HorizontalAlignment="Left" Margin="322,634,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label x:Name="CityLabelB" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="City" HorizontalAlignment="Left" Margin="322,694,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+
+
+            <!--Textboxes for Billing-->
+            <TextBox x:Name="ProfileBoxB" PreviewMouseDown="ProfileBoxB_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="174,274,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="SneakerHead " VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="FirstNameBoxB" PreviewMouseDown="FirstNameBoxB_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="174,323,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="SneakerReaper" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="LastNameBoxB" PreviewMouseDown="LastNameBoxB_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="174,375,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="IO" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="EmailBoxB" PreviewMouseDown="EmailBoxB_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="174,427,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="SneakerReaperIO@gmail.com" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="PhoneBoxB" MaxLength="10" LostFocus="PhoneBoxB_LostFocus" PreviewMouseDown="PhoneBoxB_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="171,478,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="1234567890" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="Add1BoxB" PreviewMouseDown="Add1BoxB_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="171,532,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="1234 Sneaker Lane" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="Add2BoxB" PreviewMouseDown="Add2BoxB_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="171,582,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="Apt. 105" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="CountryBoxB" PreviewMouseDown="CountryBoxB_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="171,636,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="USA" VerticalAlignment="Top" Width="103" Grid.Column="2"/>
+            <TextBox MaxLength="5" x:Name="ZipBoxB"  PreviewMouseDown="ZipBoxB_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="174,696,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="12345" VerticalAlignment="Top" Width="103" Grid.Column="2"/>
+            <TextBox x:Name="CityBoxB" PreviewMouseDown="CityBoxB_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="413,696,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="Dubai" VerticalAlignment="Top" Width="151" Grid.Column="2"/>
+            <TextBox x:Name="StateBoxB" PreviewMouseDown="StateBoxB_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="413,636,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="California" VerticalAlignment="Top" Width="148" Grid.Column="2"/>
+
+            <!-- Payment Boxes-->
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="761,268,0,0" VerticalAlignment="Top" Width="564" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="761,317,0,0" VerticalAlignment="Top" Width="564" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="761,368,0,0" VerticalAlignment="Top" Width="564" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="761,420,0,0" VerticalAlignment="Top" Width="270" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="1055,420,0,0" VerticalAlignment="Top" Width="270" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+
+            <!--Payment Box Labels-->
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Card Number" HorizontalAlignment="Left" Margin="772,272,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Card Name" HorizontalAlignment="Left" Margin="772,321,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Expiration Date" HorizontalAlignment="Left" Margin="772,373,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="CVV" HorizontalAlignment="Left" Margin="772,425,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Card Type" HorizontalAlignment="Left" Margin="1066,425,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="138" Grid.Column="2"/>
+
+            <!--Textboxes for Payment-->
+            <TextBox MaxLength="16" LostFocus="CardBox_LostFocus" x:Name="CardNumberBox" PreviewMouseDown="CardNumberBox_Click"  FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="915,274,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="CardNameBox" PreviewMouseDown="CardNameBox_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="915,323,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="SneakerReaper " VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox MaxLength="6" LostFocus="MonthBox_LostFocus" x:Name="ExDateBox" PreviewMouseDown="ExDateBox_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="915,375,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="MM YYYY" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
+            <TextBox x:Name="CVVBox" PreviewMouseDown="CVVBox_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="915,427,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="123" VerticalAlignment="Top" Width="106" Grid.Column="2"/>
+
+            <!--Payment Details Label-->
+            <Label FontSize="20" Foreground="White" Content="Payment Details" HorizontalAlignment="Center" Margin="966,205,307,0" VerticalAlignment="Top" Width="159" Height="46" FontFamily="Segoe UI Semibold" Grid.Row="2" Grid.Column="2"/>
+
+
+            <!--_Save Profile Button-->
+            <Button x:Name="SubmitButton" Click="SubmitButton_Click" FontSize="22.5" Foreground="White" BorderThickness="0" Background="#db012d" Content="Save Profile" HorizontalAlignment="Left" Margin="722,525,0,0" VerticalAlignment="Top" Width="650" Height="43" Grid.RowSpan="3" Style="{DynamicResource ButtonStyle1}" Grid.Column="2"/>
+
+
+            <!--Import Button-->
+            <Button FontSize="17.5" Foreground="White" BorderThickness="0" Background="#15c140" Content="Import" HorizontalAlignment="Left" Margin="1074,603,0,0" VerticalAlignment="Top" Width="138" Height="54" Grid.RowSpan="3" Style="{DynamicResource ButtonStyle1}" Grid.Column="2"/>
+
+
+            <!--Export Button-->
+            <Button FontSize="17.5" Foreground="White" BorderThickness="0" Background="#e51d49" Content="Export" HorizontalAlignment="Left" Margin="1234,602,0,0" VerticalAlignment="Top" Width="138" Height="54" Grid.RowSpan="3" Style="{DynamicResource ButtonStyle1}" Grid.Column="2"/>
+
+
+            <!--Card Type dropdown menu-->
+            <ComboBox x:Name="CardDropDown" FontSize="15" Foreground="#33363f" HorizontalAlignment="Left" Margin="1179,425,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Width="126" Style="{DynamicResource ComboBoxStyle1}" Grid.Column="2">
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white">Visa</ComboBoxItem>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white">Mastercard</ComboBoxItem>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white">American Express</ComboBoxItem>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white">Discover</ComboBoxItem>
+            </ComboBox>
+
+            <!--Load section-->
+            <Rectangle RadiusX="10" Fill="#0c0c11" Height="57" Margin="722,602,386,0" Stroke="Black" VerticalAlignment="Top" RadiusY="5"  Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="35" Margin="761,613,0,0" VerticalAlignment="Top" Width="270" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Load" HorizontalAlignment="Left" Margin="772,619,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="26" Width="43" RenderTransformOrigin="0.442,0.462" Grid.Column="2"/>
+            <ComboBox FontSize="15" Foreground="#0c0c11" HorizontalAlignment="Left" Margin="895,619,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Width="126" Style="{DynamicResource ComboBoxStyle2}" Grid.Column="2">
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white">Profile</ComboBoxItem>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white">?</ComboBoxItem>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white">?</ComboBoxItem>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white">?</ComboBoxItem>
+            </ComboBox>
+
+
+            <!--Checkbox for shipping same as billing-->
+            <CheckBox Checked="CheckBoxChecked" Unchecked="CheckBoxUnchecked" Content="CheckBox" HorizontalAlignment="Left" Margin="546,215,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Width="16" Style="{DynamicResource CheckBoxStyle1}" Grid.Column="2">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+
+
+            <!--Shipping-->
+
+            <TextBlock MouseLeftButtonUp="ShippingLabel_MouseLeftButtonUp" x:Name="ShippingLabel"  Foreground="White" FontSize="22.5" HorizontalAlignment="Left" Margin="17,214,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="Shipping" VerticalAlignment="Top" Width="95" Grid.Column="2">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+
+            <!--Billing-->
+            <TextBlock MouseLeftButtonUp="BillingLabel_MouseLeftButtonUp" x:Name="BillingLabel" Foreground="White" FontSize="22.5" HorizontalAlignment="Left" Margin="134,214,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="Billing" VerticalAlignment="Top" Width="95" Grid.Column="2">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+        </Grid>
+
+        <!--Tasks Page-->
+        <Grid x:Name="TasksGrid">
+
+            <!--Header Section Rect.-->
+            <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="60" Margin="52,152,0,0" Stroke="Black" VerticalAlignment="Top" Width="1426" RadiusY="5"/>
+
+            <!--Header Labels-->
+            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="ID" HorizontalAlignment="Center" Margin="83,162,1401,0" VerticalAlignment="Top" Width="37" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
+            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Store" HorizontalAlignment="Center" Margin="186,162,1262,0" VerticalAlignment="Top" Width="73" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
+            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Product" HorizontalAlignment="Center" Margin="342,162,1076,0" VerticalAlignment="Top" Width="103" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
+            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Size" HorizontalAlignment="Center" Margin="668,162,749,0" VerticalAlignment="Top" Width="104" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
+            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Profile" HorizontalAlignment="Center" Margin="812,162,605,0" VerticalAlignment="Top" Width="104" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.76,0.512"/>
+            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Proxy" HorizontalAlignment="Center" Margin="982,162,436,0" VerticalAlignment="Top" Width="103" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
+            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Status" HorizontalAlignment="Center" Margin="1160,162,257,0" VerticalAlignment="Top" Width="104" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
+            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Activity" HorizontalAlignment="Center" Margin="1326,162,91,0" VerticalAlignment="Top" Width="104" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
+
+            <!--Tasks Display Rect.-->
+            <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="420" Margin="52,246,0,0" Stroke="Black" VerticalAlignment="Top" Width="1426" RadiusY="5"/>
+
+            <!--Add Tasks Button-->
+            <Button x:Name="AddTasksButton" Click="AddTaskButton_Click" FontSize="17.5" Foreground="White" BorderThickness="0" Background="#15c140" Content="Add Tasks" HorizontalAlignment="Left" Margin="52,711,0,0" VerticalAlignment="Top" Width="138" Height="54" Style="{DynamicResource ButtonStyle1}"/>
+
+            <!--Clear Tasks Button-->
+            <Button FontSize="17.5" Foreground="White" BorderThickness="0" Background="#e51d49" Content="Clear Tasks" HorizontalAlignment="Left" Margin="212,710,0,0" VerticalAlignment="Top" Width="138" Height="54" Style="{DynamicResource ButtonStyle1}"/>
+
+            <!--Start All Button-->
+            <Button x:Name="startAllTasks"  FontSize="17.5" Foreground="White" BorderThickness="0" Background="#15c140" Content="Start All" HorizontalAlignment="Left" Margin="440,710,0,0" VerticalAlignment="Top" Width="138" Height="54" Style="{DynamicResource ButtonStyle1}"/>
+
+            <!--Stop All Button-->
+            <Button x:Name="stopAllTasks" FontSize="17.5" Foreground="White" BorderThickness="0" Background="#e51d49" Content="Stop All" HorizontalAlignment="Left" Margin="600,711,0,0" VerticalAlignment="Top" Width="138" Height="54" Style="{DynamicResource ButtonStyle1}"/>
+
+            <!--listview for tasks-->
+            <ListView x:Name="tasksListView" x:FieldModifier="public" IsHitTestVisible="True" Background="#0c0c11" HorizontalAlignment="Left" Height="420" Margin="52,246,0,0" VerticalAlignment="Top" Width="1426" Style="{DynamicResource ListViewStyle1}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <Label Width="110" Padding="35,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding ID}"  FontWeight="Bold" />
+                            <Label Width="155" Padding="20,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding Store}"  FontWeight="Bold" />
+                            <Label Width="345" Padding="20,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding Product}"  FontWeight="Bold" />
+                            <Label Width="125" Padding="20,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding Size}"  FontWeight="Bold" />
+                            <Label Width="175" Padding="20,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding Profile}"  FontWeight="Bold" />
+                            <Label Width="175" Padding="20,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding Proxy}"  FontWeight="Bold" />
+                            <Label Width="185" Padding="20,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding Status}"  FontWeight="Bold" />
+                            <Image MouseLeftButtonUp="StartIcon_MouseLeftButtonUp" Margin="0,0,0,0"  Height="25" Source="start-icon.png" Stretch="Fill" Width="25"/>
+                            <Image MouseLeftButtonUp="PauseIcon_MouseLeftButtonUp" Margin="10,0,0,0" Height="25" Source="pause-icon.png" Stretch="Fill" Width="25"/>
+                            <Image MouseLeftButtonUp="StopIcon_MouseLeftButtonUp" Margin="15,0,0,0" Height="15" Source="stop-icon.png" Stretch="Fill" Width="15"/>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <!--Add Task Page-->
+        <Grid x:Name="AddTasksGrid">
+
+            <Rectangle RadiusX="10" Fill="#0c0c11" Height="564" Margin="60,186,60,0" Stroke="Black" VerticalAlignment="Top" RadiusY="5" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+
+            <Label FontSize="30" Foreground="White" Content="Add New Tasks" Margin="652,216,651,0" VerticalAlignment="Top" Height="55" FontFamily="Segoe UI Semibold"/>
+
+            <!--ID Box-->
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="145,316,0,0" VerticalAlignment="Top" Width="564" RadiusY="5"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="ID" HorizontalAlignment="Left" Margin="164,322,0,0" VerticalAlignment="Top" Height="36" Width="138"/>
+            <TextBox x:Name="IDBox" PreviewMouseDown="IDBoxClick_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="24" Margin="263,322,0,0" TextWrapping="Wrap" Text="1         " VerticalAlignment="Top" Width="401"/>
+
+            <!--Store box-->
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="145,376,0,0" VerticalAlignment="Top" Width="564" RadiusY="5"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Store" HorizontalAlignment="Left" Margin="164,380,0,0" VerticalAlignment="Top" Height="36" Width="138"/>
+            <ComboBox Foreground="#33363f" x:Name="StoreBox" HorizontalAlignment="Left" Margin="263,384,0,0" VerticalAlignment="Top" Width="401" RenderTransformOrigin="0.442,0.5" Style="{DynamicResource ComboBoxStyle1}">
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="ShopNiceKicks"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="UNDFTD"/>
+            </ComboBox>
+
+            <!--Product box-->
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="835,316,0,0" VerticalAlignment="Top" Width="564" RadiusY="5"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Product Name" HorizontalAlignment="Left" Margin="854,320,0,0" VerticalAlignment="Top" Height="24" Width="138"/>
+            <TextBox x:Name="ProductBox" PreviewMouseDown="ProductName_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="24" Margin="992,322,0,0" TextWrapping="Wrap" Text="SneakerHead " VerticalAlignment="Top" Width="390"/>
+
+            <!--Size box-->
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="145,436,0,0" VerticalAlignment="Top" Width="564" RadiusY="5"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Size" HorizontalAlignment="Left" Margin="164,440,0,0" VerticalAlignment="Top" Height="26" Width="138"/>
+            <ComboBox Foreground="#33363f" x:Name="SizeBox" HorizontalAlignment="Left" Margin="282,444,0,0" VerticalAlignment="Top" Width="382" RenderTransformOrigin="0.442,0.5" Style="{DynamicResource ComboBoxStyle1}">
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="Random"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="One Size"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="3"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="3.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="4"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="4.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="5.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="6"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="6.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="7"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="7.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="8"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="8.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="9"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="9.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="10"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="10.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="11"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="11.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="12"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="12.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="13"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="13.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="14"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="14.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="15"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="16"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="17"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="18"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="19"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="35.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="36"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="36 2/3"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="37 1/5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="37.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="38"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="38 2/3"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="39"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="39 1/3"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="40"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="40.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="40 2/3"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="41"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="42"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="42.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="42 2/3"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="43"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="43 1/3"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="44"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="44.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="44 2/3"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="45"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="45 1/3"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="45.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="46"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="46 2/3"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="47"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="47.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="48"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="48 2/3"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="49 1/3"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="50"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="50.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="50 2/3"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="51 1/3"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="51.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="52.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="53 1/3"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="21.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="22"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="22.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="23.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="24"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="25.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="26"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="26.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="27"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="27.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="28"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="28.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="29"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="29.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="30"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="30.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="31"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="31.5"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="XXSmalll"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="XSmall"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="Medium"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="Large"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="XLarge"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="XXLarge"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="26"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="28"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="30"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="32"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="34"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="36"/>
+            </ComboBox>
+
+            <!--Profile box-->
+            <Rectangle  RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="835,376,0,0" VerticalAlignment="Top" Width="564" RadiusY="5"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Profile " HorizontalAlignment="Left" Margin="854,380,0,0" VerticalAlignment="Top" Height="36" Width="138"/>
+            <ComboBox Foreground="#33363f" x:Name="ProfileBox" HorizontalAlignment="Left" Margin="992,384,0,0" VerticalAlignment="Top" Width="390" RenderTransformOrigin="0.442,0.5" Style="{DynamicResource ComboBoxStyle1}">
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="Credit"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="Debit"/>
+            </ComboBox>
+
+            <!--Proxy box-->
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="835,433,0,0" VerticalAlignment="Top" Width="564" RadiusY="5"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Proxy " HorizontalAlignment="Left" Margin="854,437,0,0" VerticalAlignment="Top" Height="36" Width="138"/>
+            <ComboBox Foreground="#33363f" x:Name="ProxyBox" HorizontalAlignment="Left" Margin="992,441,0,0" VerticalAlignment="Top" Width="390" RenderTransformOrigin="0.442,0.5" Style="{DynamicResource ComboBoxStyle1}">
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="localhost"/>
+            </ComboBox>
+
+            <!--Type of task box-->
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="145,497,0,0" VerticalAlignment="Top" Width="564" RadiusY="5"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Type of Task " HorizontalAlignment="Left" Margin="164,501,0,0" VerticalAlignment="Top" Height="36" Width="138"/>
+            <ComboBox Foreground="#33363f" x:Name="TaskTypeBox" HorizontalAlignment="Left" Margin="282,504,0,0" VerticalAlignment="Top" Width="382" RenderTransformOrigin="0.442,0.5" Style="{DynamicResource ComboBoxStyle1}">
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="Keyword"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="Direct Link"/>
+            </ComboBox>
+
+            <!--Number of tasks box-->
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="835,491,0,0" VerticalAlignment="Top" Width="564" RadiusY="5"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Number of Tasks" HorizontalAlignment="Left" Margin="854,495,0,0" VerticalAlignment="Top" Height="24" Width="138"/>
+            <TextBox x:Name="TaskNumberBox" PreviewMouseDown="TaskNumber_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="24" Margin="992,497,0,0" TextWrapping="Wrap" Text="10 " VerticalAlignment="Top" Width="390"/>
+
+            <!--Number of tasks box-->
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="835,550,0,0" VerticalAlignment="Top" Width="564" RadiusY="5"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Mode" HorizontalAlignment="Left" Margin="854,555,0,0" VerticalAlignment="Top" Height="24" Width="138"/>
+            <ComboBox Foreground="#33363f" x:Name="ModeBox" HorizontalAlignment="Left" Margin="992,557,0,0" VerticalAlignment="Top" Width="390" RenderTransformOrigin="0.442,0.5" Style="{DynamicResource ComboBoxStyle1}">
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="Automatic Checkout"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="User Checkout"/>
+            </ComboBox>
+
+
+            <!--Monitor Delay Box-->
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="835,604,0,0" VerticalAlignment="Top" Width="282" RadiusY="5"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Monitor Delay" HorizontalAlignment="Left" Margin="857,607,0,0" VerticalAlignment="Top" Height="32" Width="138"/>
+            <TextBox Text="1000" x:Name="MonitorDelayBox" PreviewMouseDown="MonitorDelay_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="24" Margin="995,609,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92"/>
+
+            <!--Retyry Delay Box-->
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="1146,603,0,0" VerticalAlignment="Top" Width="253" RadiusY="5"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Retry Delay" HorizontalAlignment="Left" Margin="1161,607,0,0" VerticalAlignment="Top" Height="32" Width="104" RenderTransformOrigin="1.174,0.531"/>
+            <TextBox Text="1000" x:Name="RetryDelayBox" PreviewMouseDown="RetryDelay_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="24" Margin="1282,609,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92"/>
+
+            <!--Login Box-->
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="145,550,0,0" VerticalAlignment="Top" Width="564" RadiusY="5"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Login" HorizontalAlignment="Left" Margin="164,555,0,0" VerticalAlignment="Top" Height="30" Width="56"/>
+            <CheckBox Checked="LoginBoxChecked"  Unchecked="LoginBoxUnchecked" Content="CheckBox" HorizontalAlignment="Left" Margin="634,554,0,0" VerticalAlignment="Top" Width="16" Style="{DynamicResource CheckBoxStyle1}" Height="16">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="1.8" ScaleY="1.8" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+
+            <!--Monitor Delay Box-->
+            <Rectangle x:Name="UsernameRect" RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="148,610,0,0" VerticalAlignment="Top" Width="277" RadiusY="5"/>
+            <Label x:Name="UsernameLabel" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Username" HorizontalAlignment="Left" Margin="164,613,0,0" VerticalAlignment="Top" Height="32" Width="139"/>
+            <TextBox Text="Jimmy123" x:Name="UsernameBox" PreviewMouseDown="MonitorDelay_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="24" Margin="263,615,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="132"/>
+
+            <!--Retyry Delay Box-->
+            <Rectangle x:Name="PasswordRect" RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="36" Margin="455,609,0,0" VerticalAlignment="Top" Width="254" RadiusY="5"/>
+            <Label x:Name="PasswordLabel" FontFamily="Times" FontWeight="DemiBold" FontSize="15" Foreground="#db012d" Content="Password " HorizontalAlignment="Left" Margin="470,613,0,0" VerticalAlignment="Top" Height="32" Width="104" RenderTransformOrigin="1.174,0.531"/>
+            <TextBox Text="Pass123" x:Name="PasswordBox" PreviewMouseDown="Password_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="24" Margin="563,615,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="128"/>
+
+            <Button x:Name="AddTaskButton" Click="AddTasks_Click" FontSize="22.5" Foreground="White" BorderThickness="0" Background="#db012d" Content="Add" HorizontalAlignment="Left" Margin="652,675,0,0" VerticalAlignment="Top" Width="218" Height="43" Style="{DynamicResource ButtonStyle1}"/>
+        </Grid>
+
+    </Grid>
+</Window>
+
