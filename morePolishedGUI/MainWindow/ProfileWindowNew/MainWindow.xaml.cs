@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WpfApp1
 {
@@ -20,18 +12,33 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        //shipping fields for user click
         private int profileXS = 0, firstXS = 0, lastXS = 0, emailXS = 0, phoneXS = 0, a1XS = 0, a2XS = 0, stateXS = 0, cityXS = 0, zipXS = 0, countryXS = 0, cNumberX = 0, cNameX = 0, cDateX = 0, cvvX = 0;
+
+        //billing for the same thing
         private int profileXB = 0, firstXB = 0, lastXB = 0, emailXB = 0, phoneXB = 0, a1XB = 0, a2XB = 0, stateXB = 0, cityXB = 0, zipXB = 0, countryXB = 0;
+
+        //addTasks for the same thing
         private int IDBoxX = 0, ProductX = 0, TaskNumberX = 0, MonitorDelayX = 0, RetryDelayX = 0, PasswordX = 0, UsernameX = 0;
 
+        //stores profile info
         String profileNameS, firstNameS, lastNameS, emailS, phoneS, addressOneS, addressTwoS, stateS, cityS, zipS, countryS;
         String profileNameB, firstNameB, lastNameB, emailB, phoneB, addressOneB, addressTwoB, stateB, cityB, zipB, countryB;
         String cardNumber, cardName, cardDate, CVV, cardType;
 
-        public static MainWindow AppWindow;
+        //stores add task info
+        private String TaskID = null, storeName = null, sizeFromGUI = null, typeOfTask = null, usernameFromGUI = null, passwordFromGUI = null, productName = null, profile = null, proxy = null, numberOfTasks = null,
+            mode = null, reDelay = null, monDelay = null;
+
+        private int reDelayInt, monDelayInt;
+
+        private Boolean Userlogin = false;
 
         private Boolean checkMarked = false;
         private Boolean loginCheckMarked = false;
+        private ObservableCollection<Task> tasks = new ObservableCollection<Task>();
+
 
         //init method
         public MainWindow()
@@ -39,11 +46,11 @@ namespace WpfApp1
             InitializeComponent();
             shippingShow();
             SetWindowsInit();
-            AppWindow = this;
             hideLoginFields();
-            //addTask("1", "1", "1", "1", "1");
+            InitializeComponent();
+            tasksListView.ItemsSource = tasks;
         }
-       
+
         //start and stop all tasks buttons
         private void stopAllTasks_Click(object sender, EventArgs e)
         {
@@ -52,6 +59,71 @@ namespace WpfApp1
         private void startAllTasks_Click(object sender, EventArgs e)
         {
             MessageBox.Show("All tasks started");
+        }
+
+        //onClick for save task button
+        //add payments field
+        private void SaveTasks_Click(object sender, EventArgs e)
+        {
+            TaskID = IDBox.Text;
+            storeName = StoreBox.Text;
+            sizeFromGUI = SizeBox.Text;
+            typeOfTask = TaskTypeBox.Text;
+            usernameFromGUI = UsernameBox.Text;
+            passwordFromGUI = PasswordBox.Text;
+            productName = ProductBox.Text;
+            profile = ProfileBox.Text;
+            proxy = ProxyBox.Text;
+            numberOfTasks = TaskNumberBox.Text;
+            mode = ModeBox.Text;
+            reDelay = RetryDelayBox.Text;
+            monDelay = MonitorDelayBox.Text;
+
+            Boolean IDExists = false;
+
+            //check if id is already taken
+            for (int i = 0; i < tasks.Count; i++)
+            {
+                if (tasks[i].getID().Equals(TaskID))
+                {
+                    IDExists = true;
+                }
+            }
+
+            if (IDExists.Equals(false))
+            {
+                //convert the strings to int
+                Int32.TryParse(reDelay, out reDelayInt);
+                Int32.TryParse(monDelay, out monDelayInt);
+
+                tasks.Add(new Task()
+                {
+                    Website = storeName,
+                    ProductName = productName,
+                    TypeOfTask = typeOfTask,
+                    Profile = profile,
+                    Size = sizeFromGUI,
+                    MonitorDelay = monDelayInt,
+                    Username = usernameFromGUI,
+                    Password = passwordFromGUI,
+                    ID = TaskID,
+                    RetryDelay = reDelayInt,
+                    Proxy = proxy
+                });
+
+                MessageBox.Show("Tasks Successfully Added");
+
+                showTasksPage();
+            }
+            else
+            {
+                MessageBox.Show("That ID already exists, please enter a new one");
+            }
+        }
+
+        private void ClearTasks_Click(object sender, EventArgs e)
+        {
+            tasks.Clear();
         }
 
         //Show shipping or billing boxes depending on user input
@@ -168,6 +240,36 @@ namespace WpfApp1
             StateLabelS.Visibility = Visibility.Hidden;
             ZipLabelS.Visibility = Visibility.Hidden;
             CountryLabelS.Visibility = Visibility.Hidden;
+        }
+
+        //methods to switch pages
+        private void showTasksPage()
+        {
+            ProfileGrid.Visibility = Visibility.Hidden;
+            TasksGrid.Visibility = Visibility.Visible;
+            AddTasksGrid.Visibility = Visibility.Hidden;
+            ProxiesGrid.Visibility = Visibility.Hidden;
+        }
+        private void showAddTasksPage()
+        {
+            ProfileGrid.Visibility = Visibility.Hidden;
+            TasksGrid.Visibility = Visibility.Hidden;
+            AddTasksGrid.Visibility = Visibility.Visible;
+            ProxiesGrid.Visibility = Visibility.Hidden;
+        }
+        private void showProfilePage()
+        {
+            ProfileGrid.Visibility = Visibility.Visible;
+            TasksGrid.Visibility = Visibility.Hidden;
+            AddTasksGrid.Visibility = Visibility.Hidden;
+            ProxiesGrid.Visibility = Visibility.Hidden;
+        }
+        private void showProxyPage()
+        {
+            ProfileGrid.Visibility = Visibility.Hidden;
+            TasksGrid.Visibility = Visibility.Hidden;
+            AddTasksGrid.Visibility = Visibility.Hidden;
+            ProxiesGrid.Visibility = Visibility.Visible;
         }
 
         //OnClick for add tasks page
@@ -605,27 +707,25 @@ namespace WpfApp1
         }
         private void AddTasks_Click(object sender, RoutedEventArgs e)
         {
-          
+
         }
 
         //Navigation Menu Buttons
         private void TasksIcon_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ProfileGrid.Visibility = Visibility.Hidden;
-            TasksGrid.Visibility = Visibility.Visible;
-            AddTasksGrid.Visibility = Visibility.Hidden;
+            showTasksPage();
         }
         private void ProfileIcon_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ProfileGrid.Visibility = Visibility.Visible;
-            TasksGrid.Visibility = Visibility.Hidden;
-            AddTasksGrid.Visibility = Visibility.Hidden;
+            showProfilePage();
         }
         private void AddTasksIcon_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ProfileGrid.Visibility = Visibility.Hidden;
-            TasksGrid.Visibility = Visibility.Hidden;
-            AddTasksGrid.Visibility = Visibility.Visible;
+            showAddTasksPage();
+        }
+        private void ProxiesIcon_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            showProxyPage();
         }
 
         //Play, pause, and stop buttons for tasks page
@@ -645,32 +745,38 @@ namespace WpfApp1
         //addTasksButton
         private void AddTaskButton_Click(object sender, RoutedEventArgs e)
         {
-            ProfileWindowNew.AddTasksWindow addWindow = new ProfileWindowNew.AddTasksWindow();
-            addWindow.Show();
+            showAddTasksPage();
         }
 
         //call this on start to show the correct windows
         private void SetWindowsInit()
         {
             ProfileGrid.Visibility = Visibility.Hidden;
-            TasksGrid.Visibility = Visibility.Hidden;
-            AddTasksGrid.Visibility = Visibility.Visible;
+            TasksGrid.Visibility = Visibility.Visible;
+            AddTasksGrid.Visibility = Visibility.Hidden;
+            ProxiesGrid.Visibility = Visibility.Hidden;
         }
     }
-    public class User
+
+    public class Task
     {
-        public int ID { get; set; }
-
-        public string Store { get; set; }
-
-        public string Product { get; set; }
-
+        public String ID { get; set; }
+        public String Profile { get; set; }
+        public String Proxy { get; set; }
+        public String Username { get; set; }
+        public String Password { get; set; }
+        public String Website { get; set; }
+        public String TypeOfTask { get; set; }
+        public String ProductName { get; set; }
+        public String Mode { get; set; }
+        public int RetryDelay { get; set; }
+        public int MonitorDelay { get; set; }
         public String Size { get; set; }
+        public String NumberOfTasks { get; set; }
 
-        public string Profile { get; set; }
-
-        public string Proxy { get; set; }
-
-        public string Status { get; set; }
+        public String getID()
+        {
+            return ID;
+        }
     }
 }
