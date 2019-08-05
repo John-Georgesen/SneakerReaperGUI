@@ -12,7 +12,6 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-
         //shipping fields for user click
         private int profileXS = 0, firstXS = 0, lastXS = 0, emailXS = 0, phoneXS = 0, a1XS = 0, a2XS = 0, stateXS = 0, cityXS = 0, zipXS = 0, countryXS = 0, cNumberX = 0, cNameX = 0, cDateX = 0, cvvX = 0;
 
@@ -21,6 +20,9 @@ namespace WpfApp1
 
         //addTasks for the same thing
         private int IDBoxX = 0, ProductX = 0, TaskNumberX = 0, MonitorDelayX = 0, RetryDelayX = 0, PasswordX = 0, UsernameX = 0;
+
+        //same thing for the settings page
+        private int checkoutUrlX = 0, SuccessWebhook = 0;
 
         //stores profile info
         String profileNameS, firstNameS, lastNameS, emailS, phoneS, addressOneS, addressTwoS, stateS, cityS, zipS, countryS;
@@ -37,8 +39,10 @@ namespace WpfApp1
 
         private Boolean checkMarked = false;
         private Boolean loginCheckMarked = false;
-        private ObservableCollection<Task> tasks = new ObservableCollection<Task>();
 
+        //lists for proxies and tasks
+        private ObservableCollection<Task> tasks = new ObservableCollection<Task>();
+        private ObservableCollection<ProxyData> proxies = new ObservableCollection<ProxyData>();
 
         //init method
         public MainWindow()
@@ -49,6 +53,15 @@ namespace WpfApp1
             hideLoginFields();
             InitializeComponent();
             tasksListView.ItemsSource = tasks;
+
+            ProxiesListView.ItemsSource = proxies;
+            proxies.Add(new ProxyData()
+            {
+                IP = "Sammy Doe",
+                Port = "3128",
+                Username = "Jordan",
+                Password = "Belfort"
+            });
         }
 
         //start and stop all tasks buttons
@@ -249,6 +262,7 @@ namespace WpfApp1
             TasksGrid.Visibility = Visibility.Visible;
             AddTasksGrid.Visibility = Visibility.Hidden;
             ProxiesGrid.Visibility = Visibility.Hidden;
+            SettingsGrid.Visibility = Visibility.Hidden;
         }
         private void showAddTasksPage()
         {
@@ -256,6 +270,7 @@ namespace WpfApp1
             TasksGrid.Visibility = Visibility.Hidden;
             AddTasksGrid.Visibility = Visibility.Visible;
             ProxiesGrid.Visibility = Visibility.Hidden;
+            SettingsGrid.Visibility = Visibility.Hidden;
         }
         private void showProfilePage()
         {
@@ -263,6 +278,7 @@ namespace WpfApp1
             TasksGrid.Visibility = Visibility.Hidden;
             AddTasksGrid.Visibility = Visibility.Hidden;
             ProxiesGrid.Visibility = Visibility.Hidden;
+            SettingsGrid.Visibility = Visibility.Hidden;
         }
         private void showProxyPage()
         {
@@ -270,6 +286,15 @@ namespace WpfApp1
             TasksGrid.Visibility = Visibility.Hidden;
             AddTasksGrid.Visibility = Visibility.Hidden;
             ProxiesGrid.Visibility = Visibility.Visible;
+            SettingsGrid.Visibility = Visibility.Hidden;
+        }
+        private void showSettingsPage()
+        {
+            ProfileGrid.Visibility = Visibility.Hidden;
+            TasksGrid.Visibility = Visibility.Hidden;
+            AddTasksGrid.Visibility = Visibility.Hidden;
+            ProxiesGrid.Visibility = Visibility.Hidden;
+            SettingsGrid.Visibility = Visibility.Visible;
         }
 
         //OnClick for add tasks page
@@ -437,6 +462,34 @@ namespace WpfApp1
                 CountryBoxS.Clear();
 
             countryXS++;
+        }
+
+        //OnClick for settings page
+        private void CheckoutURL_Click(object sender, EventArgs e)
+        {
+            if(checkoutUrlX == 0)
+                URLBox.Clear();
+
+
+            checkoutUrlX++;
+        }
+        private void SuccessWebhook_Click(object sender, EventArgs e)
+        {
+            if (SuccessWebhook == 0)
+                WebHookBox.Clear();
+
+
+            SuccessWebhook++;
+        }
+
+        //OnClick settings buttons
+        private void CustomShopify_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void SubmitSettingButton_Click(object sender, EventArgs e)
+        {
+
         }
 
         //OnClick for billing boxes
@@ -727,6 +780,10 @@ namespace WpfApp1
         {
             showProxyPage();
         }
+        private void SettingsIcon_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            showSettingsPage();
+        }
 
         //Play, pause, and stop buttons for tasks page
         private void StartIcon_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -751,10 +808,7 @@ namespace WpfApp1
         //call this on start to show the correct windows
         private void SetWindowsInit()
         {
-            ProfileGrid.Visibility = Visibility.Hidden;
-            TasksGrid.Visibility = Visibility.Visible;
-            AddTasksGrid.Visibility = Visibility.Hidden;
-            ProxiesGrid.Visibility = Visibility.Hidden;
+            showSettingsPage();
         }
     }
 
@@ -778,5 +832,12 @@ namespace WpfApp1
         {
             return ID;
         }
+    }
+    public class ProxyData
+    {
+        public String IP { get; set; }
+        public String Port { get; set; }
+        public String Username { get; set; }
+        public String Password { get; set; }
     }
 }

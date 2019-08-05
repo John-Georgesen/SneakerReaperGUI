@@ -506,10 +506,9 @@
     <Grid Background="#0c0c11" Margin="0,0,-12,-8" HorizontalAlignment="Left" Width="1521">
 
         <!--Background Rectangles-->
-        <Rectangle Fill="#101017" HorizontalAlignment="Left" Height="697" Margin="0,114,0,0" Stroke="Black" VerticalAlignment="Top" Width="1511" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2"/>
+        <Rectangle Fill="#101017" Height="697" Margin="0,114,10,0" Stroke="Black" VerticalAlignment="Top"/>
 
         <!--Bottom MysteryAIO label-->
-        <Label FontSize="20" Foreground="White" Content="MysteryAIO" HorizontalAlignment="Center" Margin="23,811,1380,0" VerticalAlignment="Top" Width="117" Height="46" FontFamily="Segoe UI Semibold" Grid.ColumnSpan="3" Grid.Row="2"/>
 
         <Image Grid.ColumnSpan="3" Margin="0,0,1403,748" Grid.RowSpan="3" Source="mystery2 (1).png" Stretch="Fill"/>
 
@@ -518,6 +517,9 @@
         <Image MouseLeftButtonUp="AddTasksIcon_MouseLeftButtonUp" Margin="323,23,1106,768" Source="sweetdayum1.jpg" Stretch="Fill"/>
         <Image MouseLeftButtonUp="ProfileIcon_MouseLeftButtonUp" Margin="464,23,965,768" Source="sweetdayum2.jpg" Stretch="Fill"/>
         <Image MouseLeftButtonUp="ProxiesIcon_MouseLeftButtonUp" Margin="600,23,829,768" Source="sweetdayum3.jpg" Stretch="Fill"/>
+        <Image MouseLeftButtonUp="SettingsIcon_MouseLeftButtonUp" Margin="742,23,687,768" Source="sweetdayum4.jpg" Stretch="Fill"/>
+
+        <Label FontSize="20" Foreground="White" Content="MysteryAIO" HorizontalAlignment="Center" Margin="27,811,1376,0" VerticalAlignment="Top" Width="117" Height="46" FontFamily="Segoe UI Semibold" Grid.ColumnSpan="3" Grid.RowSpan="3"/>
 
         <!--Profile Page-->
         <Grid x:Name="ProfileGrid">
@@ -955,44 +957,95 @@
             <Button x:Name="AddTaskButton" Click="SaveTasks_Click" FontSize="22.5" Foreground="White" BorderThickness="0" Background="#db012d" Content="Add" HorizontalAlignment="Left" Margin="652,675,0,0" VerticalAlignment="Top" Width="218" Height="43" Style="{DynamicResource ButtonStyle1}"/>
         </Grid>
 
+
         <!--Proxies Page-->
         <Grid x:Name="ProxiesGrid">
 
             <!--Header Section Rect.-->
-            <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="60" Margin="52,152,0,0" Stroke="Black" VerticalAlignment="Top" Width="1426" RadiusY="5"/>
+            <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="60" Margin="576,152,0,0" Stroke="Black" VerticalAlignment="Top" Width="902" RadiusY="5"/>
+
+            <!--Proxies Task Bar-->
+            <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="600" Margin="43,152,0,0" Stroke="Black" VerticalAlignment="Top" Width="506" RadiusY="5"/>
+            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Proxy List" HorizontalAlignment="Center" Margin="240,180,1147,0" VerticalAlignment="Top" Width="134" Height="50" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
+
+            <ComboBox FontSize="25" Foreground="#33363f" x:Name="PickProxyBox" HorizontalAlignment="Left" Margin="100,246,0,0" VerticalAlignment="Top" Width="409" RenderTransformOrigin="0.442,0.5" Style="{DynamicResource ComboBoxStyle1}" Height="46">
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="Scooby"/>
+                <ComboBoxItem BorderBrush="Red" BorderThickness="0" Background="#101017" Foreground="white" Content="Doo"/>
+            </ComboBox>
 
             <!--Header Labels-->
-            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="ID" HorizontalAlignment="Center" Margin="83,162,1401,0" VerticalAlignment="Top" Width="37" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
-            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Store" HorizontalAlignment="Center" Margin="186,162,1262,0" VerticalAlignment="Top" Width="73" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
-            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Product" HorizontalAlignment="Center" Margin="406,162,1012,0" VerticalAlignment="Top" Width="103" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
-            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Size" HorizontalAlignment="Center" Margin="668,162,749,0" VerticalAlignment="Top" Width="104" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
-            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Profile" HorizontalAlignment="Center" Margin="812,162,605,0" VerticalAlignment="Top" Width="104" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.76,0.512"/>
-            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Proxy" HorizontalAlignment="Center" Margin="982,162,436,0" VerticalAlignment="Top" Width="103" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
-            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Status" HorizontalAlignment="Center" Margin="1160,162,257,0" VerticalAlignment="Top" Width="104" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
+            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="IP" HorizontalAlignment="Center" Margin="617,162,835,0" VerticalAlignment="Top" Width="69" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
+            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Port" HorizontalAlignment="Center" Margin="800,162,617,0" VerticalAlignment="Top" Width="104" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.76,0.512"/>
+            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Username" HorizontalAlignment="Center" Margin="948,162,444,0" VerticalAlignment="Top" Width="129" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
+            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Password" HorizontalAlignment="Center" Margin="1142,162,259,0" VerticalAlignment="Top" Width="120" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
             <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Activity" HorizontalAlignment="Center" Margin="1326,162,91,0" VerticalAlignment="Top" Width="104" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
 
             <!--Tasks Display Rect.-->
-            <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="420" Margin="52,246,0,0" Stroke="Black" VerticalAlignment="Top" Width="1426" RadiusY="5"/>
+            <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="506" Margin="576,246,0,0" Stroke="Black" VerticalAlignment="Top" Width="902" RadiusY="5"/>
 
-            <!--listview for tasks-->
-            <ListView x:Name="ProxiesListView" x:FieldModifier="public" IsHitTestVisible="True" Background="#0c0c11" HorizontalAlignment="Left" Height="420" Margin="52,246,0,0" VerticalAlignment="Top" Width="1426" Style="{DynamicResource ListViewStyle1}" >
+            <!--listview for proxies-->
+            <ListView x:Name="ProxiesListView" x:FieldModifier="public" IsHitTestVisible="True" Background="#0c0c11" Height="506" Margin="576,246,43,0" VerticalAlignment="Top" Style="{DynamicResource ListViewStyle1}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel>
-                            <Label Width="110" Padding="35,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding ID}"  FontWeight="Bold" />
-                            <Label Width="225" Padding="20,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding Website}"  FontWeight="Bold" />
-                            <Label Width="265" Padding="20,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding ProductName}"  FontWeight="Bold" />
-                            <Label Width="145" Padding="20,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding Size}"  FontWeight="Bold" />
-                            <Label Width="170" Padding="20,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding Profile}"  FontWeight="Bold" />
-                            <Label Width="175" Padding="20,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding Proxy}"  FontWeight="Bold" />
-                            <Label Width="185" Padding="20,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding Status}"  FontWeight="Bold" />
+                            <Label Width="205" Padding="35,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding IP}"  FontWeight="Bold" />
+                            <Label Width="155" Padding="20,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding Port}"  FontWeight="Bold" />
+                            <Label Width="185" Padding="20,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding Username}"  FontWeight="Bold" />
+                            <Label Width="215" Padding="20,10,10,10" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="white" Content="{Binding Password}"  FontWeight="Bold" />
                             <Image MouseLeftButtonUp="StartIcon_MouseLeftButtonUp" Margin="0,0,0,0"  Height="25" Source="start-icon.png" Stretch="Fill" Width="25"/>
-                            <Image MouseLeftButtonUp="PauseIcon_MouseLeftButtonUp" Margin="10,0,0,0" Height="25" Source="pause-icon.png" Stretch="Fill" Width="25"/>
                             <Image MouseLeftButtonUp="StopIcon_MouseLeftButtonUp" Margin="15,0,0,0" Height="15" Source="stop-icon.png" Stretch="Fill" Width="15"/>
                         </WrapPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+        </Grid>
+        <!--Settings Grid-->
+        <Grid x:Name="SettingsGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0*"/>
+                <ColumnDefinition Width="88*"/>
+                <ColumnDefinition Width="1432*"/>
+                <ColumnDefinition Width="0*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="564" Margin="60,186,0,0" Stroke="Black" VerticalAlignment="Top" Width="1416" RadiusY="5" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+
+
+
+            <!--Delivery boxes-->
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="60" Margin="236,314,0,0" VerticalAlignment="Top" Width="878" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="60" Margin="235,406,0,0" VerticalAlignment="Top" Width="881" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+            <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="60" Margin="236,495,0,0" VerticalAlignment="Top" Width="528" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+
+            <!--Labels-->
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="20" Foreground="#db012d" Content="Checkout URL Webhook" HorizontalAlignment="Left" Margin="265,328,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="42" Width="302" Grid.Column="2"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="20" Foreground="#db012d" Content="Success Webhook" HorizontalAlignment="Left" Margin="265,417,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="302" Grid.Column="2"/>
+            <Label FontFamily="Times" FontWeight="DemiBold" FontSize="20" Foreground="#db012d" Content="Send Success to Discord" HorizontalAlignment="Left" Margin="265,508,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Height="36" Width="230" Grid.Column="2" RenderTransformOrigin="0.409,0.556"/>
+
+            <!--Textboxes for Shipping-->
+            <TextBox x:Name="URLBox" PreviewMouseDown="CheckoutURL_Click" FontSize="20" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="29" Margin="609,328,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="Checkout URL " VerticalAlignment="Top" Width="470" Grid.Column="2"/>
+            <TextBox x:Name="WebHookBox" PreviewMouseDown="SuccessWebhook_Click" FontSize="20" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="35" Margin="588,417,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="Success URL" VerticalAlignment="Top" Width="491" Grid.Column="2"/>
+
+            <!--Checkbox for shipping same as billing-->
+            <CheckBox Checked="CheckBoxChecked" Unchecked="CheckBoxUnchecked" Content="CheckBox" HorizontalAlignment="Left" Margin="665,509,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Width="20" Grid.Column="2">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+            <Label FontSize="30" Foreground="White" Content="Settings" HorizontalAlignment="Center" Margin="609,212,668,0" VerticalAlignment="Top" Width="155" Height="51" FontFamily="Segoe UI Semibold" Grid.RowSpan="3" Grid.Column="2"/>
+
+            <!--Custom Shopify Button-->
+            <Button x:Name="CustomShopifyButton" Click="CustomShopify_Click" FontSize="22.5" Foreground="White" BorderThickness="0" Background="#db012d" Content="Create Custom Shopify" HorizontalAlignment="Left" Margin="797,495,0,0" VerticalAlignment="Top" Width="317" Height="60" Grid.RowSpan="3" Style="{DynamicResource ButtonStyle1}" Grid.Column="2"/>
+
+            <!--Submit Settings Button-->
+            <Button x:Name="SubmitSettingsButton" Click="SubmitSettingButton_Click" FontSize="17.5" Foreground="White" BorderThickness="0" Background="#15c140" Content="Submit Settings" HorizontalAlignment="Left" Margin="563,617,0,0" VerticalAlignment="Top" Width="245" Height="60" Grid.RowSpan="3" Style="{DynamicResource ButtonStyle1}" Grid.Column="2"/>
         </Grid>
     </Grid>
 </Window>
