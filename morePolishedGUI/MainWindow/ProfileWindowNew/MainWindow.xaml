@@ -630,7 +630,6 @@
             <!--Textboxes for Payment-->
             <TextBox MaxLength="16" LostFocus="CardBox_LostFocus" x:Name="CardNumberBox" PreviewMouseDown="CardNumberBox_Click"  FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="915,274,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
             <TextBox x:Name="CardNameBox" PreviewMouseDown="CardNameBox_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="915,323,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="SneakerReaper " VerticalAlignment="Top" Width="390" Grid.Column="2"/>
-            <TextBox MaxLength="6" LostFocus="MonthBox_LostFocus" x:Name="ExDateBox" PreviewMouseDown="ExDateBox_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="915,375,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="MM YYYY" VerticalAlignment="Top" Width="390" Grid.Column="2"/>
             <TextBox x:Name="CVVBox" PreviewMouseDown="CVVBox_Click" FontSize="15" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="23" Margin="915,427,0,0" Grid.RowSpan="3" TextWrapping="Wrap" Text="123" VerticalAlignment="Top" Width="106" Grid.Column="2"/>
 
             <!--Payment Details Label-->
@@ -704,6 +703,7 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
+            <DatePicker Grid.Column="2" HorizontalAlignment="Left" Margin="915,374,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Width="199"/>
 
         </Grid>
 
@@ -758,6 +758,7 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
+
         <!--Add Task Page-->
         <Grid x:Name="AddTasksGrid">
 
@@ -957,15 +958,24 @@
             <Button x:Name="AddTaskButton" Click="SaveTasks_Click" FontSize="22.5" Foreground="White" BorderThickness="0" Background="#db012d" Content="Add" HorizontalAlignment="Left" Margin="652,675,0,0" VerticalAlignment="Top" Width="218" Height="43" Style="{DynamicResource ButtonStyle1}"/>
         </Grid>
 
-
         <!--Proxies Page-->
         <Grid x:Name="ProxiesGrid">
+
+            <!--Add Button-->
+            <Button Click="AddProxy_Click" FontSize="17.5" Foreground="White" BorderThickness="0" Background="#15c140" Content="Add" HorizontalAlignment="Left" Margin="43,565,0,0" VerticalAlignment="Top" Width="221" Height="54" Style="{DynamicResource ButtonStyle1}" RenderTransformOrigin="0.536,0.611"/>
+
+            <!--Delete Button-->
+            <Button FontSize="17.5" Foreground="White" BorderThickness="0" Background="#e51d49" Content="Delete" HorizontalAlignment="Left" Margin="326,565,0,0" VerticalAlignment="Top" Width="223" Height="54" Style="{DynamicResource ButtonStyle1}" RenderTransformOrigin="0.435,0.556" />
+
+            <!--Test All Button-->
+            <Button FontSize="17.5" Foreground="White" BorderThickness="0" Background="#15c140" Content="Test All" HorizontalAlignment="Left" Margin="1312,648,0,0" VerticalAlignment="Top" Width="166" Height="54" Style="{DynamicResource ButtonStyle1}" RenderTransformOrigin="0.536,0.611"/>
+            <Button FontSize="17.5" Foreground="White" BorderThickness="0" Background="#e51d49" Content="Remove All Dead" HorizontalAlignment="Left" Margin="1312,732,0,0" VerticalAlignment="Top" Width="166" Height="54" Style="{DynamicResource ButtonStyle1}" RenderTransformOrigin="0.435,0.556"/>
 
             <!--Header Section Rect.-->
             <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="60" Margin="576,152,0,0" Stroke="Black" VerticalAlignment="Top" Width="902" RadiusY="5"/>
 
             <!--Proxies Task Bar-->
-            <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="600" Margin="43,152,0,0" Stroke="Black" VerticalAlignment="Top" Width="506" RadiusY="5"/>
+            <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="384" Margin="43,152,0,0" Stroke="Black" VerticalAlignment="Top" Width="506" RadiusY="5"/>
             <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Proxy List" HorizontalAlignment="Center" Margin="240,180,1147,0" VerticalAlignment="Top" Width="134" Height="50" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
 
             <ComboBox FontSize="25" Foreground="#33363f" x:Name="PickProxyBox" HorizontalAlignment="Left" Margin="100,246,0,0" VerticalAlignment="Top" Width="409" RenderTransformOrigin="0.442,0.5" Style="{DynamicResource ComboBoxStyle1}" Height="46">
@@ -981,10 +991,10 @@
             <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Activity" HorizontalAlignment="Center" Margin="1326,162,91,0" VerticalAlignment="Top" Width="104" Height="41" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
 
             <!--Tasks Display Rect.-->
-            <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="506" Margin="576,246,0,0" Stroke="Black" VerticalAlignment="Top" Width="902" RadiusY="5"/>
+            <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="373" Margin="576,246,0,0" Stroke="Black" VerticalAlignment="Top" Width="902" RadiusY="5"/>
 
             <!--listview for proxies-->
-            <ListView x:Name="ProxiesListView" x:FieldModifier="public" IsHitTestVisible="True" Background="#0c0c11" Height="506" Margin="576,246,43,0" VerticalAlignment="Top" Style="{DynamicResource ListViewStyle1}" >
+            <ListView x:Name="ProxiesListView" x:FieldModifier="public" IsHitTestVisible="True" Background="#0c0c11" Height="373" Margin="576,246,43,0" VerticalAlignment="Top" Style="{DynamicResource ListViewStyle1}" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel>
@@ -999,7 +1009,13 @@
                 </ListView.ItemTemplate>
             </ListView>
 
+            <!--Test Link-->
+            <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="54" Margin="368,692,0,0" Stroke="Black" VerticalAlignment="Top" Width="826" RadiusY="5"/>
+            <Label FontWeight="Bold" FontSize="25" Foreground="White" Content="Test Link: " HorizontalAlignment="Center" Margin="394,698,995,0" VerticalAlignment="Top" Width="132" Height="42" FontFamily="Segoe UI Semibold" RenderTransformOrigin="0.539,0.561"/>
+            <TextBox x:Name="TestLinkBox" PreviewMouseDown="IDBoxClick_Click" FontSize="25" BorderThickness="0" Background="#101017" Foreground="#33363f" HorizontalAlignment="Left" Height="34" Margin="530,702,0,0" TextWrapping="Wrap" Text=" " VerticalAlignment="Top" Width="620" RenderTransformOrigin="0.5,0.5"/>
+
         </Grid>
+
         <!--Settings Grid-->
         <Grid x:Name="SettingsGrid">
             <Grid.RowDefinitions>
@@ -1016,8 +1032,6 @@
             </Grid.ColumnDefinitions>
 
             <Rectangle RadiusX="10" Fill="#0c0c11" HorizontalAlignment="Left" Height="564" Margin="60,186,0,0" Stroke="Black" VerticalAlignment="Top" Width="1416" RadiusY="5" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
-
-
 
             <!--Delivery boxes-->
             <Rectangle RadiusX="5" Fill="#101017" HorizontalAlignment="Left" Height="60" Margin="236,314,0,0" VerticalAlignment="Top" Width="878" RadiusY="5" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
@@ -1047,6 +1061,7 @@
             <!--Submit Settings Button-->
             <Button x:Name="SubmitSettingsButton" Click="SubmitSettingButton_Click" FontSize="17.5" Foreground="White" BorderThickness="0" Background="#15c140" Content="Submit Settings" HorizontalAlignment="Left" Margin="563,617,0,0" VerticalAlignment="Top" Width="245" Height="60" Grid.RowSpan="3" Style="{DynamicResource ButtonStyle1}" Grid.Column="2"/>
         </Grid>
+
     </Grid>
 </Window>
 

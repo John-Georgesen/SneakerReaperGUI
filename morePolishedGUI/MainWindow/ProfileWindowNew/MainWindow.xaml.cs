@@ -69,6 +69,12 @@ namespace WpfApp1
         {
             MessageBox.Show("All tasks stopped");
         }
+        private void CustomShopify_Click(object sender, RoutedEventArgs e)
+        {
+            ProfileWindowNew.CustomShopifyWindow window = new ProfileWindowNew.CustomShopifyWindow();
+            window.Show();
+        }
+
         private void startAllTasks_Click(object sender, EventArgs e)
         {
             MessageBox.Show("All tasks started");
@@ -203,7 +209,7 @@ namespace WpfApp1
             BillingLabel.TextDecorations = TextDecorations.Underline;
 
             //set billing boxes to visible
-            ProfileBoxB.Visibility = Visibility.Visible;
+            ProfileBoxB.Visibility = Visibility.Hidden;
             FirstNameBoxB.Visibility = Visibility.Visible;
             LastNameBoxB.Visibility = Visibility.Visible;
             EmailBoxB.Visibility = Visibility.Visible;
@@ -216,7 +222,7 @@ namespace WpfApp1
             CountryBoxB.Visibility = Visibility.Visible;
 
             //set billing labels to visible
-            ProfileLabelB.Visibility = Visibility.Visible;
+            ProfileLabelB.Visibility = Visibility.Hidden;
             FirstNameLabelB.Visibility = Visibility.Visible;
             LastNameLabelB.Visibility = Visibility.Visible;
             EmailLabelB.Visibility = Visibility.Visible;
@@ -586,13 +592,6 @@ namespace WpfApp1
 
             cNameX++;
         }
-        private void ExDateBox_Click(object sender, EventArgs e)
-        {
-            if (cDateX == 0)
-                ExDateBox.Clear();
-
-            cDateX++;
-        }
         private void CVVBox_Click(object sender, EventArgs e)
         {
             if (cvvX == 0)
@@ -608,23 +607,8 @@ namespace WpfApp1
 
             try
             {
-                txtBox.Text = CardNumberBox.Text.Substring(0, 4) + "-" + CardNumberBox.Text.Substring(4, 4) + "-"
-                    + CardNumberBox.Text.Substring(8, 4) + "-" + CardNumberBox.Text.Substring(12, 4);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                Console.Write("ERROR");
-            }
-        }
-        private void MonthBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox txtBox = sender as TextBox;
-
-            txtBox.MaxLength = 7;
-
-            try
-            {
-                txtBox.Text = ExDateBox.Text.Substring(0, 2) + "/" + ExDateBox.Text.Substring(2);
+                txtBox.Text = CardNumberBox.Text.Substring(0, 4) + " " + CardNumberBox.Text.Substring(4, 4) + " "
+                    + CardNumberBox.Text.Substring(8, 4) + " " + CardNumberBox.Text.Substring(12, 4);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -702,7 +686,6 @@ namespace WpfApp1
                 cardNumber = CardNumberBox.Text;
                 cardName = CardNameBox.Text;
                 CVV = CVVBox.Text;
-                cardDate = ExDateBox.Text;
 
                 profileNameB = profileNameS;
                 firstNameB = firstNameS;
@@ -749,7 +732,6 @@ namespace WpfApp1
                 cardNumber = CardNumberBox.Text;
                 cardName = CardNameBox.Text;
                 CVV = CVVBox.Text;
-                cardDate = ExDateBox.Text;
 
                 MessageBox.Show("Profile Saved");
             }
@@ -805,10 +787,17 @@ namespace WpfApp1
             showAddTasksPage();
         }
 
+        //Add to proxy list
+        private void AddProxy_Click(object sender, RoutedEventArgs e)
+        {
+            ProfileWindowNew.AddProxyWindow window = new ProfileWindowNew.AddProxyWindow();
+            window.Show();
+        }
+
         //call this on start to show the correct windows
         private void SetWindowsInit()
-        {
-            showSettingsPage();
+        { 
+            showProxyPage();
         }
     }
 
